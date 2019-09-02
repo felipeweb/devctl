@@ -17,8 +17,8 @@ jobs:
     - name: Build
       env:
         GO111MODULE: on
-      run: go build -mod=vendor ./cmd/devctl
+      run: go build ./cmd/devctl
     - name: Test
       env:
         GO111MODULE: on
-      run: go test -mod=vendor -race ./...
+      run: go test -race ./...
