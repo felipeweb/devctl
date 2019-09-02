@@ -36,8 +36,8 @@ func TestFormatting(t *testing.T) {
 			"%+v",
 			[]string{
 				`^message \(code=NotFound\):$`,
-				`\s+github.com/felipeweb/devctl/errors.TestFormatting$`,
-				`\s+.*/errors/errors_test.go:\d+$`,
+				`\s+github.com/felipeweb/devctl/internal/errors.TestFormatting$`,
+				`\s+.*/internal/errors/errors_test.go:\d+$`,
 			},
 		},
 		{
@@ -50,8 +50,8 @@ func TestFormatting(t *testing.T) {
 			"%+v",
 			[]string{
 				`^message \(code=AlreadyExists\):`,
-				`^\s+github.com/felipeweb/devctl/errors.TestFormatting$`,
-				`^\s+.*/errors/errors_test.go:\d+$`,
+				`^\s+github.com/felipeweb/devctl/internal/errors.TestFormatting$`,
+				`^\s+.*/internal/errors/errors_test.go:\d+$`,
 				`^\s+- wrapped$`,
 			},
 		},
@@ -65,8 +65,8 @@ func TestFormatting(t *testing.T) {
 			"%+v",
 			[]string{
 				`^code=AlreadyExists:`,
-				`^\s+github.com/felipeweb/devctl/errors.TestFormatting$`,
-				`^\s+.*/errors/errors_test.go:\d+$`,
+				`^\s+github.com/felipeweb/devctl/internal/errors.TestFormatting$`,
+				`^\s+.*/internal/errors/errors_test.go:\d+$`,
 				`^\s+- wrapped$`,
 			},
 		},
