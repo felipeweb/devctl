@@ -1,4 +1,4 @@
-name: OpenURL
+name: Devctl
 on: 
   push:
   pull_request:
