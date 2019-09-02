@@ -1,11 +1,7 @@
 name: OpenURL
 on: 
   push:
-    paths:
-      - openurl/*
   pull_request:
-    paths:
-      - openurl/*
 jobs:
   build:
     name: Build
