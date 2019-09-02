@@ -3,9 +3,11 @@ package machine
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"sync"
 
 	"github.com/felipeweb/devctl/internal/errors"
+	"github.com/felipeweb/devctl/internal/openurl"
 	"github.com/felipeweb/devctl/machine/driver"
 	"gocloud.dev/gcerrors"
 )
@@ -74,3 +76,82 @@ func wrapError(m driver.Machine, err error, name string) error {
 }
 
 var errClosed = errors.Newf(gcerrors.FailedPrecondition, nil, "vm: Machine has been shutdown")
+
+// MachineURLOpener represents types that can open Machines based on a URL.
+// The opener must not modify the URL argument. NewURL must be safe to
+// call from multiple goroutines.
+//
+// This interface is generally implemented by types in driver packages.
+type MachineURLOpener interface {
+	NewURL(ctx context.Context, u *url.URL) (*Machine, error)
+}
+
+// URLMux is a URL opener multiplexer. It matches the scheme of the URLs
+// against a set of registered schemes and calls the opener that matches the
+// URL's scheme.
+// See https://gocloud.dev/concepts/urls/ for more information.
+//
+// The zero value is a multiplexer with no registered schemes.
+type URLMux struct {
+	schemes openurl.SchemeMap
+}
+
+// MachineSchemes returns a sorted slice of the registered Machine schemes.
+func (mux *URLMux) MachineSchemes() []string { return mux.schemes.Schemes() }
+
+// ValidMachineScheme returns true iff scheme has been registered for Machines.
+func (mux *URLMux) ValidMachineScheme(scheme string) bool { return mux.schemes.ValidScheme(scheme) }
+
+// RegisterMachine registers the opener with the given scheme. If an opener
+// already exists for the scheme, RegisterMachine panics.
+func (mux *URLMux) RegisterMachine(scheme string, opener MachineURLOpener) {
+	mux.schemes.Register("vm", "machine", scheme, opener)
+}
+
+// New calls NewURL with the URL parsed from urlstr.
+// New is safe to call from multiple goroutines.
+func (mux *URLMux) New(ctx context.Context, urlstr string) (*Machine, error) {
+	o, u, err := mux.schemes.FromString("machine", urlstr)
+	if err != nil {
+		return nil, err
+	}
+	opener := o.(MachineURLOpener)
+	machine, err := opener.NewURL(ctx, u)
+	if err != nil {
+		return nil, err
+	}
+	return machine, nil
+}
+
+// NewURL dispatches the URL to the opener that is registered with the
+// URL's scheme. NewURL is safe to call from multiple goroutines.
+func (mux *URLMux) NewURL(ctx context.Context, u *url.URL) (*Machine, error) {
+	o, err := mux.schemes.FromURL("machine", u)
+	if err != nil {
+		return nil, err
+	}
+	opener := o.(MachineURLOpener)
+	machine, err := opener.NewURL(ctx, u)
+	if err != nil {
+		return nil, err
+	}
+	return machine, nil
+}
+
+var defaultURLMux = new(URLMux)
+
+// DefaultURLMux returns the URLMux used by New.
+//
+// Driver packages can use this to register their MachineURLOpener on the mux.
+func DefaultURLMux() *URLMux {
+	return defaultURLMux
+}
+
+// New opens the Machine identified by the URL given.
+//
+// See the URLOpener documentation in driver subpackages for
+// details on supported URL formats, and https://gocloud.dev/concepts/urls/
+// for more information.
+func New(ctx context.Context, urlstr string) (*Machine, error) {
+	return defaultURLMux.New(ctx, urlstr)
+}
