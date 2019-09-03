@@ -6,9 +6,9 @@ import (
 	"net/url"
 	"sync"
 
+	"github.com/felipeweb/devctl/devenv/machine/driver"
 	"github.com/felipeweb/devctl/internal/errors"
 	"github.com/felipeweb/devctl/internal/openurl"
-	"github.com/felipeweb/devctl/machine/driver"
 	"gocloud.dev/gcerrors"
 )
 
