@@ -10,7 +10,7 @@ require (
 	github.com/spf13/afero v1.2.2
 	github.com/spf13/cobra v0.0.5
 	github.com/stretchr/testify v1.4.0
-	gocloud.dev v0.16.0
-	golang.org/x/xerrors v0.0.0-20190513163551-3ee3066db522
+	gocloud.dev v0.16.1-0.20190903220511-fc2a686d4101
+	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
 	gopkg.in/yaml.v2 v2.2.2
 )
