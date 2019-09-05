@@ -9,11 +9,6 @@ import (
 	"github.com/spf13/afero"
 )
 
-const (
-	// MixinOutputsDir represents the directory where mixin output files are written/read
-	MixinOutputsDir = "/devctl/outputs"
-)
-
 type CommandBuilder func(name string, arg ...string) *exec.Cmd
 
 type Context struct {
