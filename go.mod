@@ -9,8 +9,8 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/afero v1.2.2
 	github.com/spf13/cobra v0.0.7
-	github.com/stretchr/testify v1.5.1
+	github.com/stretchr/testify v1.6.0
 	gocloud.dev v0.16.1-0.20190903220511-fc2a686d4101
-	golang.org/x/xerrors v0.0.0-20190717185122-a985d3407aa7
+	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
 	gopkg.in/yaml.v2 v2.2.8
 )
