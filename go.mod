@@ -3,7 +3,7 @@ module github.com/felipeweb/devctl
 go 1.12
 
 require (
-	github.com/gobuffalo/packr/v2 v2.8.0
+	github.com/gobuffalo/packr/v2 v2.8.1
 	github.com/google/go-cmp v0.5.0
 	github.com/googleapis/gax-go v2.0.2+incompatible
 	github.com/pkg/errors v0.9.1
