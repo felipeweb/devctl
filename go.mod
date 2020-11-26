@@ -12,5 +12,5 @@ require (
 	github.com/stretchr/testify v1.6.1
 	gocloud.dev v0.16.1-0.20190903220511-fc2a686d4101
 	golang.org/x/xerrors v0.0.0-20191204190536-9bdfabe68543
-	gopkg.in/yaml.v2 v2.3.0
+	gopkg.in/yaml.v2 v2.4.0
 )
